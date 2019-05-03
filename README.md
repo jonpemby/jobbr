@@ -1,6 +1,6 @@
 # Jobbr
 
-By Jonathon Pemberton _<jonpemby@icloud.com>_
+By Jonathon Pemberton <_jonpemby@icloud.com_>
 
 Search Google for job listings matching your criteria!
 
