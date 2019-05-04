@@ -4,13 +4,17 @@ from src.exceptions import ResponseError
 from src.utilities import print_err
 
 
+from src.post import Post
+
+
 def app():
     (queries, options) = read_args()
 
-    results = []
+    # results = [Post({'title': 'A new job', 'link': 'https://mylink2.com', 'snippet': 'A bad job post'})]
 
     # TODO:
-    # 1) Make this actually multi-threaded using the multi-threading module... will reduce time to search by a lot!
+    # 1) Make this actually multi-threaded using the multi-threading module...
+    #    will reduce time to search by a lot!
     # 2) Insert results into the database once they are all processed and
     #    found (if the particular job isn't already in the db, that is)
 
@@ -29,6 +33,6 @@ def app():
         print("Done searching for {}".format(query))
 
     for result in results:
-        print(result)
+        result.save()
 
     exit(0)

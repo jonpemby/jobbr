@@ -1,4 +1,5 @@
 from json.encoder import JSONEncoder
+from src.db import DB
 
 
 class Post:
@@ -35,10 +36,25 @@ class Post:
     def get_snippet(self):
         return self.snippet
 
-    def __str__(self):
+    # TODO:
+    # Possibly not needed anymore, but still helpful to have for debugging
+    # (JSON isn't super terrible to look at)
+    def __repr__(self):
         encoder = JSONEncoder()
         return encoder.encode({
             'title': self.get_title(),
             'link': self.get_link(),
             'snippet': self.get_snippet(),
         })
+
+    # TODO:
+    # Ideally this should be separated out into a base Model class.
+    # More ideally, using an ActiveRecord-esque library. :D
+    def save(self):
+        DB.make().run("insert into search_results (title, link, snippet) "
+                      "select %(title)s title, %(link)s link, %(snippet)s "
+                      "where not exists("
+                      "select link from search_results where link = %(link)s"
+                      ");", {'title': self.get_title(),
+                             'link': self.get_link(),
+                             'snippet': self.get_snippet()})
